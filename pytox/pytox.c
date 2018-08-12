@@ -22,6 +22,8 @@
 
 #include <Python.h>
 #include <stdio.h>
+#include <errno.h>
+#include <time.h>
 
 #include "core.h"
 #include "util.h"

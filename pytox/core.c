@@ -23,6 +23,11 @@
 #include "core.h"
 #include "util.h"
 
+
+#define TOX_ENABLE_IPV6_DEFAULT true
+
+
+
 #if PY_MAJOR_VERSION < 3
 # define BUF_TC "s"
 #else

@@ -3,31 +3,16 @@ import os
 from distutils.core import setup, Extension
 from subprocess import Popen, PIPE
 
-def supports_av():
-    h = Popen("echo 'extern int toxav_new(); int (*x)() = &toxav_new;' | cc $LDFLAGS -ltoxcore -xc -", shell=True, stderr=PIPE)
-    out, err = h.communicate()
-    if os.path.exists("a.out"):
-        os.remove("a.out")
-    return "toxav" not in str(err)
 
 sources = ["pytox/pytox.c", "pytox/core.c", "pytox/util.c"]
-libraries = [
-  "opus",
-  "sodium",
-  "toxcore",
-  "vpx",
-]
-cflags = [
-  "-Wall",
-  # "-Werror",
-  "-Wextra",
-  "-Wno-declaration-after-statement",
-  "-Wno-missing-field-initializers",
-  "-Wno-unused-parameter",
-  "-fno-strict-aliasing",
-]
 
-if supports_av():
+
+libraries = ["toxcore", "sodium", "ws2_32", "wsock32", "opus", "vpx"]
+cflags = ["-Wall", "-Wno-declaration-after-statement"]
+
+
+
+if True:
     sources.append("pytox/av.c")
     cflags.append("-DENABLE_AV")
 else:
@@ -45,6 +30,7 @@ setup(
         Extension(
             "pytox",
             sources,
+            library_dirs=["/usr/local/lib"],
             extra_compile_args=cflags,
             libraries=libraries
         )
