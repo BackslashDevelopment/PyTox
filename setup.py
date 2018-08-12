@@ -4,19 +4,14 @@ from distutils.core import setup, Extension
 from subprocess import Popen, PIPE
 
 
-sources = ["pytox/pytox.c", "pytox/core.c", "pytox/util.c"]
+sources = ["pytox/pytox.c", "pytox/core.c", "pytox/util.c",  "pytox/av.c"]
 
 
-libraries = ["toxcore", "sodium", "ws2_32", "wsock32", "opus", "vpx"]
-cflags = ["-Wall", "-Wno-declaration-after-statement"]
+libraries = ["toxcore", "sodium", "toxav", "vpx", "opus", "ws2_32", "wsock32", "iphlpapi", 'pthread', 'm' ]
+cflags = ["-Wall", "-Wno-declaration-after-statement", "-DENABLE_AV" ]
 
 
 
-if True:
-    sources.append("pytox/av.c")
-    cflags.append("-DENABLE_AV")
-else:
-    print("Warning: AV support not found, disabled.")
 
 setup(
     name="PyTox",
@@ -30,7 +25,7 @@ setup(
         Extension(
             "pytox",
             sources,
-            library_dirs=["/usr/local/lib"],
+            library_dirs=["/usr/x86_64-w64-mingw32/sys-root/mingw/lib"],
             extra_compile_args=cflags,
             libraries=libraries
         )
